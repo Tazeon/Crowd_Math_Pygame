@@ -35,7 +35,7 @@ class Person:
         elif self.crowd_size <= 100:
             self.base_size = 10
         else:
-            self.base_size = max(8, 15 - int(self.crowd_size / 50))
+            self.base_size = max(8, 11 - int(self.crowd_size / 50))
     
     def update_screen_position(self):
         """คำนวณตำแหน่งบนหน้าจอ (เรียกครั้งเดียวต่อ frame)"""
