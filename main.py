@@ -16,7 +16,7 @@ class MathCrowdRunner:
         
         # ตั้งค่าหน้าจอ
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Math Crowd Runner")
+        pygame.display.set_caption("B-Math Komachi")
         self.clock = pygame.time.Clock()
         
         # โหลดทรัพยากรและฟอนต์
@@ -47,8 +47,8 @@ class MathCrowdRunner:
         title_box.fill(BLACK)
         self.screen.blit(title_box, (WIDTH//2 - 350, 130))
         
-        title = self.fonts['big_font'].render("MATH CROWD RUNNER", True, CYAN)
-        self.screen.blit(title, (WIDTH//2 - 320, 150))
+        title = self.fonts['big_font'].render("B-MATH KOMACHI", True, CYAN)
+        self.screen.blit(title, (WIDTH//2 - 250, 150))
         
         play_btn = Button(WIDTH//2 - 150, 300, 300, 100, "PLAY", GREEN)
         exit_btn = Button(WIDTH//2 - 150, 440, 300, 100, "EXIT", RED)

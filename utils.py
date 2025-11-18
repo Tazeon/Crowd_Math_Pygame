@@ -53,11 +53,32 @@ def load_resources():
     """โหลดรูปภาพและเสียงทั้งหมดครั้งเดียว"""
     assets = {}
     
-    def safe_load_image(name, scale=None):
+    def safe_load_image(name, scale=None, center_crop=False):
         try:
             img = pygame.image.load(f'assets/{name}')
             if scale:
-                img = pygame.transform.scale(img, scale)
+                if center_crop:
+                    # Center crop แบบสมมาตร (ไม่ย่อรูป)
+                    target_w, target_h = scale
+                    img_w, img_h = img.get_size()
+                    
+                    # คำนวณ scale ratio ให้เต็มจอ
+                    scale_w = target_w / img_w
+                    scale_h = target_h / img_h
+                    scale_ratio = max(scale_w, scale_h)  # ใช้ค่าที่ใหญ่กว่า
+                    
+                    # Scale รูปให้เต็ม
+                    new_w = int(img_w * scale_ratio)
+                    new_h = int(img_h * scale_ratio)
+                    img = pygame.transform.scale(img, (new_w, new_h))
+                    
+                    # Crop ตรงกลาง
+                    crop_x = (new_w - target_w) // 2
+                    crop_y = (new_h - target_h) // 2
+                    img = img.subsurface((crop_x, crop_y, target_w, target_h)).copy()
+                else:
+                    # Scale ปกติ (ย่อรูป)
+                    img = pygame.transform.scale(img, scale)
             return img
         except:
             return None
@@ -65,9 +86,9 @@ def load_resources():
     # โหลดรูปภาพ
     assets['ai_hoshino'] = safe_load_image('ai_hoshino.jpg', (30, 30))
     assets['knife'] = safe_load_image('knife.png', (20, 20))
-    assets['stage'] = safe_load_image('stage.png', (800, 800))
-    assets['ai_dead'] = safe_load_image('ai_dead.jpg', (800, 800))
-    assets['ai_win'] = safe_load_image('ai_win.png', (800, 800))
+    assets['stage'] = safe_load_image('stage.png', (800, 800), center_crop=True)
+    assets['ai_dead'] = safe_load_image('ai_dead.jpg', (800, 800), center_crop=True)
+    assets['ai_win'] = safe_load_image('ai_win.png', (800, 800), center_crop=True)
     assets['game_over'] = safe_load_image('images.png', (400, 300))
     
     # Pre-scale sprites สำหรับ Person (ลด lag จาก transform ทุก frame)
